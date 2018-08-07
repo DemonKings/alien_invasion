@@ -1,4 +1,5 @@
 import pygame
+
 from settings import Settings
 from ship import Ship
 import game_functions as gf
@@ -16,6 +17,10 @@ def run_game():
     # 创建一艘飞船
     ship = Ship(screen, ai_settings)
 
+    # 创建一个外星人
+    aliens = Group()
+    gf.create_fleet(ai_settings, screen, aliens, ship)
+
     # 创建一个存储子弹的编组
     bullets = Group()
 
@@ -27,9 +32,11 @@ def run_game():
         # 调用飞船移动的方法
         ship.update()
         # 调用管理子弹的方法
-        gf.update_bullet(bullets)
+        gf.update_bullet(bullets, aliens, ai_settings, screen, ship)
+        # 调用管理外星人的方法
+        gf.update_aliens(aliens, ai_settings)
         # 每次循环重绘屏幕
-        gf.update_screen(ai_settings, screen, ship, bullets)
+        gf.update_screen(ai_settings, screen, ship, bullets, aliens)
 
 
 if __name__ == '__main__':
